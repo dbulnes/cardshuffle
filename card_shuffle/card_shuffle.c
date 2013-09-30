@@ -68,7 +68,7 @@ int findNumberOfShufflesToOriginalOrder(int deckSize)
     
     int shuffleCount;
     for(shuffleCount = 0; !isDeckInOriginalOrder(deckInHand); shuffleCount++){
-        shuffle(&deckInHand, &deckOnTable);
+        //shuffle(&deckInHand, &deckOnTable);
     }
     
     return shuffleCount;
