@@ -9,6 +9,7 @@
 #ifndef _card_shuffle_h
 #define _card_shuffle_h
 
+#include <stdint.h>
 #include <limits.h>
 
 /* 

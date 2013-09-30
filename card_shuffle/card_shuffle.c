@@ -51,7 +51,8 @@ int isDeckInOriginalOrder(deck *deck)
     return 1;
 }
 
-int findNumberOfShufflesToOriginalOrder(int deckSize)
+//maybe long instead of long long? make note of
+uint64_t findNumberOfShufflesToOriginalOrder(int deckSize)
 {
     //Check for the case of one card in the deck. No need for further computation. 
     if (deckSize <= 3) {
@@ -66,7 +67,7 @@ int findNumberOfShufflesToOriginalOrder(int deckSize)
         return ERROR_RETURN;
     }
     
-    int shuffleCount;
+    uint64_t shuffleCount;
     for(shuffleCount = 0; !isDeckInOriginalOrder(deckInHand); shuffleCount++){
         //shuffle(&deckInHand, &deckOnTable);
     }
@@ -93,12 +94,12 @@ int main(int argc, const char * argv[])
             return ERROR_RETURN;
         }
         
-        int roundsToOriginalOrder = findNumberOfShufflesToOriginalOrder(deckSize);
+        uint64_t roundsToOriginalOrder = findNumberOfShufflesToOriginalOrder(deckSize);
         if (roundsToOriginalOrder == ERROR_RETURN) {
             printf("Error finding the number of rounds for deck size: %d/n", deckSize);
             return ERROR_RETURN;
         }
-        printf("Deck size: %d\nNumber of shuffles to get back to original deck order: %d\n", deckSize, roundsToOriginalOrder);
+        printf("Deck size: %d\nNumber of shuffles to get back to original deck order: %lld\n", deckSize, roundsToOriginalOrder);
         return 0;
     }
     else {
