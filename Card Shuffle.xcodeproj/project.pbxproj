@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6368B6FB17F8E14000A5AA03 /* card_shuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = 6368B6FA17F8E14000A5AA03 /* card_shuffle.c */; };
 		FE7ADA6B17F64FD9003EDB6B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = FE7ADA6A17F64FD9003EDB6B /* main.c */; };
 		FE7ADA6D17F64FD9003EDB6B /* Card_Shuffle.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = FE7ADA6C17F64FD9003EDB6B /* Card_Shuffle.1 */; };
-		FE7ADA7517F6505A003EDB6B /* cards.c in Sources */ = {isa = PBXBuildFile; fileRef = FE7ADA7317F6505A003EDB6B /* cards.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,11 +26,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6368B6FA17F8E14000A5AA03 /* card_shuffle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = card_shuffle.c; sourceTree = "<group>"; };
+		6368B6FC17F8E16E00A5AA03 /* card_shuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = card_shuffle.h; sourceTree = "<group>"; };
 		FE7ADA6717F64FD9003EDB6B /* Card Shuffle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Card Shuffle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE7ADA6A17F64FD9003EDB6B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		FE7ADA6C17F64FD9003EDB6B /* Card_Shuffle.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Card_Shuffle.1; sourceTree = "<group>"; };
-		FE7ADA7317F6505A003EDB6B /* cards.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cards.c; sourceTree = "<group>"; };
-		FE7ADA7417F6505A003EDB6B /* cards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cards.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +65,8 @@
 			children = (
 				FE7ADA6A17F64FD9003EDB6B /* main.c */,
 				FE7ADA6C17F64FD9003EDB6B /* Card_Shuffle.1 */,
-				FE7ADA7317F6505A003EDB6B /* cards.c */,
-				FE7ADA7417F6505A003EDB6B /* cards.h */,
+				6368B6FA17F8E14000A5AA03 /* card_shuffle.c */,
+				6368B6FC17F8E16E00A5AA03 /* card_shuffle.h */,
 			);
 			path = "Card Shuffle";
 			sourceTree = "<group>";
@@ -123,7 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE7ADA6B17F64FD9003EDB6B /* main.c in Sources */,
-				FE7ADA7517F6505A003EDB6B /* cards.c in Sources */,
+				6368B6FB17F8E14000A5AA03 /* card_shuffle.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +231,7 @@
 				FE7ADA7217F64FD9003EDB6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

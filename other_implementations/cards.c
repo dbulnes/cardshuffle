@@ -93,7 +93,8 @@ static void do_round(card_t *hand_ptr, card_t *table_ptr) {
 		// push card onto table's stack
 		enqueue_head(&table, tmp);
 		
-		if(!hand) break;	// ran out of cards?
+		if(!hand)
+            break;	// ran out of cards?
 		
 		// move second card from top of hand queue to bottom of hand queue
 		dequeue_head(&hand, &tmp);
@@ -145,7 +146,7 @@ uint32_t rounds_to_loop(card_value_t cardCount) {
 	for(ct = 0UL; ; ct++) {
 		// Perform a round of the task
 		do_round(&hand, &desk);
-		
+		printf("round %d", ct);
 		// Check if the result is in order.
 		if(is_in_order(hand, cardCount)) { 
 			break;
@@ -162,10 +163,13 @@ uint32_t rounds_to_loop(card_value_t cardCount) {
  */
 int main(int argc, char *argv[]) {
 	// sanity check
-    unsigned long ct = 3;
-	if(ct > 1) {
+    //unsigned long ct = 3;
+    //((1 << (sizeof(card_value_t)*8)) - 1)
+    int size = sizeof(card_value_t)*8;
+    int bitshift = 1 << size;
+	if(argc > 1) {
 		// convert the passed string to a value, squash it to card_value_t size
-		//unsigned long ct = (unsigned long)strtol(cardCount, NULL, 10);
+		unsigned long ct = (unsigned long)strtol(argv[1], NULL, 10);
 		if(ct > MAX_CARD_COUNT) {
 			printf("Too many cards. Max is %lu.\n", (long)MAX_CARD_COUNT);
 			return -1;
