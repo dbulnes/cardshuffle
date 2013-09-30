@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Card Shuffle.xcscheme</key>
+		<key>card_shuffle.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>FE7ADA6617F64FD9003EDB6B</key>
+		<key>6368B70B17F964BE00A5AA03</key>
 		<dict>
 			<key>primary</key>
 			<true/>
