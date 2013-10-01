@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "card_shuffle.h"
 
 /* TODO: 
@@ -61,12 +62,24 @@ void putCardOnTopOfDeck(card *card, deck *deck)
     return;
 }
 
+
 void putCardOnBottomOfDeck(card *card, deck *deck)
 {
     deck->bottomCard->nextCard = card;
     card->nextCard = NULL;
     deck->bottomCard = card;
     return;
+}
+
+/** @brief Empties a deck by NULLing the card pointers of a given deck.
+ *
+ *  @param deck A deck pointer that is to have it's bottom and top cards NULLed
+ *  @return void
+ */
+void emptyDeck(deck *deck)
+{
+    deck->bottomCard = NULL;
+    deck->topCard = NULL;
 }
 
 /** @brief Performs one round of the shuffle algorithm on a deck, divided into two sub-decks.
@@ -83,9 +96,6 @@ void putCardOnBottomOfDeck(card *card, deck *deck)
 */
 void shuffleDeckOneRound(deck *deckInHand, deck *deckOnTable)
 {
-    //deck *newDeck = initializeDeck(0);
-    deckOnTable->bottomCard = NULL;
-    deckOnTable->topCard = NULL;
     while (deckInHand->topCard != deckInHand->bottomCard) {
         card *cardToPutOnTable = unlinkTopCardFromDeck(deckInHand);
         putCardOnTopOfDeck(cardToPutOnTable, deckOnTable);
@@ -100,20 +110,27 @@ void shuffleDeckOneRound(deck *deckInHand, deck *deckOnTable)
     //Take the last card in the hand deck and put it on top of the table deck.
     card *cardToPutOnTable = unlinkTopCardFromDeck(deckInHand);
     putCardOnTopOfDeck(cardToPutOnTable, deckOnTable);
-    //deckInHand is now empty. 
-    deckInHand->bottomCard = NULL;
-    deckInHand->topCard = NULL;
+    //Make sure the deck in hand is empty.
+    emptyDeck(deckInHand);
 }
 
+/** @brief Puts the deck on the table back in hand. Uses a temporary card pointer to assign the 
+ *  hand deck's top and bottom cards.
+ *
+ *  @param deckInHand A dereferenced pointer to the deck in hand.
+ *  @param deckOnTable A dereferenced pointer to the deck on the table.
+ *  @return void
+ */
 void putDeckBackInHand(deck *deckInHand, deck *deckOnTable)
 {
-    card *temp = deckOnTable->topCard;
-    //deckInHand->topCard->nextCard = deckOnTable->topCard->nextCard;
-    deckInHand->topCard = temp;
-    while (temp->nextCard != deckOnTable->bottomCard) {
-        temp = temp->nextCard;
+    card *tempCard = deckOnTable->topCard;
+    deckInHand->topCard = tempCard;
+    while (tempCard->nextCard != deckOnTable->bottomCard) {
+        tempCard = tempCard->nextCard;
     }
-    deckInHand->bottomCard = temp->nextCard;
+    deckInHand->bottomCard = tempCard->nextCard;
+    //Now that the deck in hand has the cards of the table deck, empty the table deck's pointers.
+    emptyDeck(deckOnTable);
 }
 
 int isDeckInOriginalOrder(deck *deck)
@@ -153,9 +170,8 @@ uint64_t findNumberOfShufflesToOriginalOrder(int deckSize)
         shuffleDeckOneRound(deckInHand, deckOnTable);
         //deckInHand = deckOnTable;
         putDeckBackInHand(deckInHand, deckOnTable);
-        //deckOnTable = NULL;
         shuffleCount++;
-        printf("%lld\n", shuffleCount);
+        //printf("%lld\n", shuffleCount);
     } while (!isDeckInOriginalOrder(deckInHand));
     
     //free all memory- or talk about how id do it if there was more to be done after
@@ -185,8 +201,8 @@ int main(int argc, const char * argv[])
             printf("Error finding the number of rounds for deck size: %d/n", deckSize);
             return ERROR_RETURN;
         }
-        printf("Deck size: %d ::: Number of shuffles to get back to original deck order: %lld\n", deckSize, roundsToOriginalOrder);
         
+        printf("Deck size: %d ::: Number of shuffles to get back to original deck order: %lld\n", deckSize, roundsToOriginalOrder);
         return 0;
     }
     else {
