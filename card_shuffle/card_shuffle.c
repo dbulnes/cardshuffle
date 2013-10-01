@@ -16,6 +16,34 @@
     -question 2 write up.
  */
 
+card* initializeCard(int value, card *nextCard)
+{
+    //No need to calloc or mem-set as we are assigning new values to memory immediately
+    card *newCard = malloc(sizeof(struct card));
+    newCard->value = value;
+    newCard->nextCard = nextCard;
+    return newCard;
+}
+
+deck* initializeDeck(int deckSize)
+{
+    //Calloc so that all card pointers are zeroed. They will be assigned later.
+    deck *newDeck = calloc(1, sizeof(struct deck));
+    //Check for non zero deck size.
+    if(deckSize){
+        //A deck's initial pointers - top card: lowest value, bottom card: highest value
+        newDeck->bottomCard = initializeCard(deckSize, NULL);
+        newDeck->topCard = newDeck->bottomCard;
+        //A little unconvential, counting backwards. Makes sense with bottom card being highest value.
+        for (int cardValue = deckSize-1; cardValue > 0; cardValue--) {
+            //for (int cardValue = 1; cardValue < deckSize; cardValue++) {
+            card *newCard = initializeCard(cardValue, newDeck->topCard);
+            newDeck->topCard = newCard;
+        }
+    }
+    return newDeck;
+}
+
 card *unlinkTopCardFromDeck(deck *deck)
 {
     //If a next card exists after the top card, assign it, otherwise the top card and bottom card are equal.
@@ -55,6 +83,7 @@ void putCardOnBottomOfDeck(card *card, deck *deck)
 */
 void shuffleDeckOneRound(deck *deckInHand, deck *deckOnTable)
 {
+    //deck *newDeck = initializeDeck(0);
     deckOnTable->bottomCard = NULL;
     deckOnTable->topCard = NULL;
     while (deckInHand->topCard != deckInHand->bottomCard) {
@@ -74,28 +103,6 @@ void shuffleDeckOneRound(deck *deckInHand, deck *deckOnTable)
     //deckInHand is now empty. 
     deckInHand->bottomCard = NULL;
     deckInHand->topCard = NULL;
-//    //The table deck's top card is now the hand deck's top card.
-//    deckOnTable->topCard = deckInHand->topCard;
-//    //Assign the bottom table card to the top table card initially. They are the same.
-//    deckOnTable->bottomCard = deckOnTable->topCard;
-//    //The nextCard pointer of the table deck's top card needs to point to the bottom card, however.
-//    deckOnTable->topCard->nextCard = deckOnTable->bottomCard;
-//    // 
-//    deckInHand->topCard = deckInHand->topCard->nextCard;
-//    //deckOnTable->topCard->nextCard = NULL;
-//    
-//    while (deckInHand->topCard->nextCard) {
-//        //Move the top card in the hand deck to the bottom.
-//        deckInHand->bottomCard->nextCard = deckInHand->topCard;
-//        deckInHand->bottomCard = deckInHand->topCard;
-//        deckInHand->topCard = deckInHand->topCard->nextCard;
-//        deckInHand->bottomCard->nextCard = NULL;
-//        
-//        card *previousTopCardOnTable = deckOnTable->topCard;
-//        deckOnTable->topCard = deckInHand->topCard;
-//        deckInHand->topCard = deckInHand->topCard->nextCard;
-//        deckOnTable->topCard->nextCard = previousTopCardOnTable;
-//    }
 }
 
 void putDeckBackInHand(deck *deckInHand, deck *deckOnTable)
@@ -109,38 +116,10 @@ void putDeckBackInHand(deck *deckInHand, deck *deckOnTable)
     deckInHand->bottomCard = temp->nextCard;
 }
 
-card* initializeCard(int value, card *nextCard)
-{
-    //No need to calloc or mem-set as we are assigning new values to memory immediately
-    card *newCard = malloc(sizeof(struct card));
-    newCard->value = value;
-    newCard->nextCard = nextCard;
-    return newCard;
-}
-
-deck* initializeDeck(int deckSize)
-{
-    //Calloc so that all card pointers are zeroed. They will be assigned later. 
-    deck *newDeck = calloc(1, sizeof(struct deck));
-    //Check for non zero deck size.
-    if(deckSize){
-        //A deck's initial pointers - top card: lowest value, bottom card: highest value 
-        newDeck->bottomCard = initializeCard(deckSize, NULL);
-        newDeck->topCard = newDeck->bottomCard;
-        //A little unconvential, counting backwards. Makes sense with bottom card being highest value. 
-        for (int cardValue = deckSize-1; cardValue > 0; cardValue--) {
-        //for (int cardValue = 1; cardValue < deckSize; cardValue++) {
-            card *newCard = initializeCard(cardValue, newDeck->topCard);
-            newDeck->topCard = newCard;
-        }
-    }
-    return newDeck;
-}
-
 int isDeckInOriginalOrder(deck *deck)
 {
     struct card *cardIterator = deck->topCard;
-    for (int cardCount = deck->topCard->value; cardCount > 0; cardCount--) {
+    for (int cardCount = 1; cardIterator; cardCount++) {
         if (cardCount == cardIterator->value)
             cardIterator = cardIterator->nextCard;
         else
@@ -174,8 +153,9 @@ uint64_t findNumberOfShufflesToOriginalOrder(int deckSize)
         shuffleDeckOneRound(deckInHand, deckOnTable);
         //deckInHand = deckOnTable;
         putDeckBackInHand(deckInHand, deckOnTable);
-        deckOnTable = NULL;
+        //deckOnTable = NULL;
         shuffleCount++;
+        printf("%lld\n", shuffleCount);
     } while (!isDeckInOriginalOrder(deckInHand));
     
     //free all memory- or talk about how id do it if there was more to be done after
@@ -205,7 +185,8 @@ int main(int argc, const char * argv[])
             printf("Error finding the number of rounds for deck size: %d/n", deckSize);
             return ERROR_RETURN;
         }
-        printf("Deck size: %d\nNumber of shuffles to get back to original deck order: %lld\n", deckSize, roundsToOriginalOrder);
+        printf("Deck size: %d ::: Number of shuffles to get back to original deck order: %lld\n", deckSize, roundsToOriginalOrder);
+        
         return 0;
     }
     else {
