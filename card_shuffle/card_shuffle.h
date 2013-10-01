@@ -48,10 +48,12 @@ typedef int cardValue;
 #define MAX_DECK_SIZE INT_MAX
 
 #define ERROR_RETURN -1
+
 /*
  Per the instructions, in lieu of using an array, a singly linked list should suffice for
  our card data structure.
 */
+
 /** @struct card
     @brief A representation for each card in our deck. Models a forward-pointing linked list. 
     @var value
@@ -66,6 +68,13 @@ typedef struct card {
     struct card *nextCard;
 }card;
 
+/** @struct deck
+    @brief Keeps pointers to the top and bottom cards of a collection of linked cards, a deck.
+    @var bottomCard
+    Points to the bottom card on the deck. When a deck is initialized, this card has the highest value.
+    @var topCard
+    Points to the top card on the deck. When a deck is initialized, this card has the lowest value.
+ */
 typedef struct deck {
     struct card *bottomCard;
     struct card *topCard;

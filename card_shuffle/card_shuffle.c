@@ -10,7 +10,29 @@
 #include <stdlib.h>
 #include "card_shuffle.h"
 
+/* TODO: 
+    -Write shuffle algorithm
+    -comments everywhere
+    -question 2 write up.
+ */
 
+
+/** @brief Performs one round of the shuffle algorithm on a deck, divided into two sub-decks.
+*  Algorithm: 
+*       "1. Take the top card off the deck and set it on the table
+*       2. Take the next card off the top and put it on the bottom of the deck
+*       in your hand.
+*       3. Continue steps 1 and 2 until all cards are on the table.  This is a
+*       round."
+*
+*  @param deckInHand The row in which to display the character.
+*  @param deckOnTable The column in which to display the character.
+*  @return void
+*/
+void shuffleDeckOneRound(deck *deckInHand, deck *deckOnTable)
+{
+    
+}
 
 card* initializeCard(int value, card *nextCard)
 {
@@ -25,13 +47,12 @@ deck* initializeDeck(int deckSize)
     deck *newDeck = malloc(sizeof(struct deck));
     //Check for non zero deck size.
     if(deckSize){
-        //A deck goes from bottom to top lowest to highest values. Start at 0 for the value, since value itself is
-        //irrelevent as long as the initial order of values is sequentially established. 
-        newDeck->bottomCard = initializeCard(0, NULL);
+        //A deck's initial pointers - top card: lowest value, bottom card: highest value 
+        newDeck->bottomCard = initializeCard(deckSize, NULL);
         newDeck->topCard = newDeck->bottomCard;
         //A little unconvential, counting backwards. Makes sense with bottom card being highest value. 
-        //for (int cardCount = deckSize; cardCount > 0; cardCount--) {
-        for (int cardValue = 1; cardValue < deckSize; cardValue++) {
+        for (int cardValue = deckSize-1; cardValue > 0; cardValue--) {
+        //for (int cardValue = 1; cardValue < deckSize; cardValue++) {
             card *newCard = initializeCard(cardValue, newDeck->topCard);
             newDeck->topCard = newCard;
         }
