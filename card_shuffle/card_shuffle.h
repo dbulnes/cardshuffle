@@ -70,14 +70,14 @@ typedef struct card {
 
 /** @struct deck
     @brief Keeps pointers to the top and bottom cards of a collection of linked cards, a deck.
-    @var bottomCard
-    Points to the bottom card on the deck. When a deck is initialized, this card has the highest value.
     @var topCard
     Points to the top card on the deck. When a deck is initialized, this card has the lowest value.
+    @var bottomCard
+    Points to the bottom card on the deck. When a deck is initialized, this card has the highest value.
  */
 typedef struct deck {
-    struct card *bottomCard;
     struct card *topCard;
+    struct card *bottomCard;
 }deck;
 
 #endif
