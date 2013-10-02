@@ -252,6 +252,11 @@ roundCount findNumberOfShufflesToOriginalOrder(deckSize deckSize)
 
 /** @function main
  *  @brief The main loop- validates input, kick off program, prints out results. 
+ *  Example execution, input to, and output of card_shuffle program:
+ *   >./card_shuffle 11
+ *   Deck size: 11
+ *   Shuffles needed to return to original deck order: 15
+ *
  *
  *  @param deckSize The size of the deck to make the initial hand deck.
  *  @return roundCount (uint64_t) The number of rounds of shuffles it takes for the deck to be sorted in its
