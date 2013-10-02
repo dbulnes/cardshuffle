@@ -1,6 +1,7 @@
 //
 //  card_shuffle.h
-//  Card Shuffle
+//  Card Shuffle - Defines types and structs from cards and decks pertaining to the
+//  described algorithm. 
 //
 //  Created by David on 9/29/13.
 //  Copyright (c) 2013 David Bulnes, david@davidbulnes.com. All rights reserved.
@@ -36,14 +37,25 @@
 /*
  Let's define the size of a card's value.
  It can be safely assumed that this program will be run on a 32 bit or 64 bit desktop processor,
- so the 16 bit int minimum should be fine. Unsigned int- no need for negative card values. 
+ so an unsigned int should be fine. Unsigned int- no need for negative card values. 
  
- ***If we were to run this on a microcontroller or other processor with 8 bit architecture,
- simply change the below typedef to a type of uint8_t or similar, which will also affect
- the maximum solvable deck size.***
+ ***If we were to run this on a 8 bit architecture,simply change the below typedef to a type 
+ of uint8_t or similar.***
 */
-typedef int cardValue;
-#define MAX_DECK_SIZE INT_MAX
+typedef unsigned int cardValue;
+#define MAX_CARD_VALUE UINT_MAX
+
+//For clarity let's separately define a deckSize type also of unsigned int.
+typedef unsigned int deckSize;
+#define MAX_DECK_SIZE UINT_MAX
+
+/*
+ The number of required shuffles to find a solution can be much larger
+ than the size of deck. Let's make the maximum number of rounds 64-bit. Perhaps change if
+ running on a 8 or 16 bit architecture.
+ */
+typedef uint64_t roundCount;
+#define MAX_SHUFFLE_COUNT UINT64_MAX
 
 #define ERROR_RETURN -1
 
