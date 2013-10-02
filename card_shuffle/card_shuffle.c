@@ -12,12 +12,11 @@
 #include "card_shuffle.h"
 
 /* TODO: 
-    -Write shuffle algorithm
     -comments everywhere
     -question 2 write up.
  */
 
-card* initializeCard(int value, card *nextCard)
+card *initializeCard(int value, card *nextCard)
 {
     //No need to calloc or mem-set as we are assigning new values to memory immediately
     card *newCard = malloc(sizeof(struct card));
@@ -26,9 +25,14 @@ card* initializeCard(int value, card *nextCard)
     return newCard;
 }
 
-deck* initializeDeck(int deckSize)
+/** @brief Intializes a deck of a given size. Recursive- initializes all cards in the new deck.
+ *
+ *  @param deckSize The size of the deck. In other words, the number of cards to place in the deck. 
+ *  @return deck *
+ */
+deck *initializeDeck(int deckSize)
 {
-    //Calloc so that all card pointers are zeroed. They will be assigned later.
+    //Calloc so that all card pointers are zeroed. They will be assigned later in this function or elsewhere.
     deck *newDeck = calloc(1, sizeof(struct deck));
     //Check for non zero deck size.
     if(deckSize){
@@ -45,6 +49,12 @@ deck* initializeDeck(int deckSize)
     return newDeck;
 }
 
+/** @brief Takes a card, and makes it the top card of a given deck.
+ *
+ *  @param card The card to put on top of the deck.
+ *  @param deck The deck to put the card on top of.
+ *  @return void
+ */
 card *unlinkTopCardFromDeck(deck *deck)
 {
     //If a next card exists after the top card, assign it, otherwise the top card and bottom card are equal.
@@ -55,6 +65,12 @@ card *unlinkTopCardFromDeck(deck *deck)
     return unlinkedTopCard;
 }
 
+/** @brief Takes a card, and makes it the top card of a given deck.
+ *
+ *  @param card The card to put on top of the deck.
+ *  @param deck The deck to put the card on top of.
+ *  @return void
+ */
 void putCardOnTopOfDeck(card *card, deck *deck)
 {
     card->nextCard = deck->topCard;
@@ -62,7 +78,12 @@ void putCardOnTopOfDeck(card *card, deck *deck)
     return;
 }
 
-
+/** @brief Takes a card, and makes it the bottom card of a given deck.
+ *
+ *  @param card The card to put on the bottom of the deck.
+ *  @param deck The deck to put the card on the bottom of. 
+ *  @return void
+ */
 void putCardOnBottomOfDeck(card *card, deck *deck)
 {
     deck->bottomCard->nextCard = card;
@@ -73,7 +94,7 @@ void putCardOnBottomOfDeck(card *card, deck *deck)
 
 /** @brief Empties a deck by NULLing the card pointers of a given deck.
  *
- *  @param deck A deck pointer that is to have it's bottom and top cards NULLed
+ *  @param deck A deck pointer that is to have it's bottom and top cards NULLed.
  *  @return void
  */
 void emptyDeck(deck *deck)
@@ -84,8 +105,8 @@ void emptyDeck(deck *deck)
 
 /** @brief Performs one round of the shuffle algorithm on a deck, divided into two sub-decks.
 *  Algorithm: 
-*       "1. Take the top card off the deck and set it on the table
-*        2. Take the next card off the top and put it on the bottom of the deck
+*       "1. Take the top card off the (hand) deck and set it on the table
+*        2. Take the next card off the top (of the hand deck) and put it on the bottom of the deck
 *        in your hand.
 *        3. Continue steps 1 and 2 until all cards are on the table.  This is a
 *        round."
@@ -96,14 +117,17 @@ void emptyDeck(deck *deck)
 */
 void shuffleDeckOneRound(deck *deckInHand, deck *deckOnTable)
 {
+    //The conditional check here is Step 3 in the brief. If the top and bottom card are the same, there is
+    //only one card in the hand deck left. 
     while (deckInHand->topCard != deckInHand->bottomCard) {
+        //Step 1: Take the top card from the hand deck, put it on the top of the deck on the table. 
         card *cardToPutOnTable = unlinkTopCardFromDeck(deckInHand);
         putCardOnTopOfDeck(cardToPutOnTable, deckOnTable);
         //Check if the bottom table card is empty, i.e. this is the first iteration of the loop.
-        //If so, the bottom card and top card on the table are the same
+        //If so, the bottom card and top card on the table should be the same. Needed once per shuffle round.
         if (!deckOnTable->bottomCard)
             deckOnTable->bottomCard = deckOnTable->topCard;
-        
+        //Step 2: Take the top card in the hand deck and put it on the bottom of the hand deck.
         card *cardToPutOnBottomOfHand = unlinkTopCardFromDeck(deckInHand);
         putCardOnBottomOfDeck(cardToPutOnBottomOfHand, deckInHand);
     }
@@ -133,6 +157,12 @@ void putDeckBackInHand(deck *deckInHand, deck *deckOnTable)
     emptyDeck(deckOnTable);
 }
 
+/** @brief Takes a card, and makes it the top card of a given deck.
+ *
+ *  @param card The card to put on top of the deck.
+ *  @param deck The deck to put the card on top of.
+ *  @return void
+ */
 int isDeckInOriginalOrder(deck *deck)
 {
     struct card *cardIterator = deck->topCard;

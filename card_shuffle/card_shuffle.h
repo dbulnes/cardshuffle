@@ -36,14 +36,13 @@
 /*
  Let's define the size of a card's value.
  It can be safely assumed that this program will be run on a 32 bit or 64 bit desktop processor,
- so the 16 bit int should be fine. Unsigned int- no need for negative card values. 
+ so the 16 bit int minimum should be fine. Unsigned int- no need for negative card values. 
  
  ***If we were to run this on a microcontroller or other processor with 8 bit architecture,
  simply change the below typedef to a type of uint8_t or similar, which will also affect
  the maximum solvable deck size.***
 */
 typedef int cardValue;
-//bitshift 1 by the number of bits per int.
 #define MAX_DECK_SIZE INT_MAX
 
 #define ERROR_RETURN -1
@@ -69,6 +68,7 @@ typedef struct card {
 
 /** @struct deck
     @brief Keeps pointers to the top and bottom cards of a collection of linked cards, a deck.
+    In terms of ordered value, when initialized, a deck goes from top to bottom, lowest to highest value.
     @var topCard
     Points to the top card on the deck. When a deck is initialized, this card has the lowest value.
     @var bottomCard
